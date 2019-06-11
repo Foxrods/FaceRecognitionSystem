@@ -1,0 +1,2 @@
+This file has no porpose.
+This folder is where all unknown faces are saved for later training.
