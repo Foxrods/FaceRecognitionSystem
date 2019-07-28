@@ -176,18 +176,22 @@ def main():
     global data
     global frameDict
     global rpiName
-    imageHub = imagezmq.ImageHub(open_port='tcp://192.168.1.111:5555')
+    #imageHub = imagezmq.ImageHub(open_port='tcp://192.168.1.111:5555')
     #imageHub2 = imagezmq.ImageHub(open_port='tcp://192.168.1.111:5557')
     data = pickle.loads(open("encodings.pickle", "rb").read())
+    capture = cv2.VideoCapture(0)
+    #capture2 = cv2.VideoCapture(1) inicia a captura de video de uma segunda webcam
     while True:
-        (rpiName, frame) = imageHub.recv_image()
+        #(rpiName, frame) = imageHub.recv_image()
         #(rpiName2, frame2) = imageHub2.recv_image()
-        imageHub.send_reply(b'OK')
+        #imageHub.send_reply(b'OK')
         #imageHub2.send_reply(b'OK')
+        ret, frame = capture.read()
+        #ret2, frame2 = capture2.read() faz a captura dos frames na outra webcam
         frame = imutils.resize(frame, width=500)
-        #frame2 = imutils.resize(frame2, width=500)
+        #frame2 = imutils.resize(frame2, width=500) reescalona
         frame = face_recog(frame)
-        #frame2 = face_recog(frame2)
+        #frame2 = face_recog(frame2) reconhece os rostos na segunda webcam
         (h, w) = frame.shape[:2]
         cv2.putText(frame, rpiName, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         #cv2.putText(frame2, rpiName2, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
